@@ -1,38 +1,23 @@
-var audioContext = new AudioContext();
+$( document ).ready(function(){	
+
+		document.getElementById ("startInput").addEventListener ("click", toggleLiveInput, false);
+
+		var contextClass = (window.AudioContext || 
+			window.webkitAudioContext || 
+			window.mozAudioContext || 
+			window.oAudioContext || 
+			window.msAudioContext);
+
+		if (contextClass) {
+		  var audioContext = new contextClass();
+		} else {
+		  console.log("Web Audio API is not available. Use a supported browser.")
+		}
+		
 		var isPlaying = false;
 		var sourceNode = null;
 		var analyser = null;
 		var peaks = new Array();
-
-		window.onload = function() {
-
-			detectorElem = document.getElementById( "detector" );
-
-			detectorElem.ondragenter = function () { 
-				this.classList.add("droptarget"); 
-				return false; };
-			detectorElem.ondragleave = function () { this.classList.remove("droptarget"); return false; };
-			detectorElem.ondrop = function (e) {
-		  		this.classList.remove("droptarget");
-		  		e.preventDefault();
-				theBuffer = null;
-
-		  	var reader = new FileReader();
-		  	reader.onload = function (event) {
-		  		audioContext.decodeAudioData( event.target.result, function(buffer) {
-		    		theBuffer = buffer;
-		  		}, function(){alert("Error loading!");} ); 
-
-		  	};
-
-		  	reader.onerror = function (event) {
-		  		alert("Error: " + reader.error );
-			};
-		  	reader.readAsArrayBuffer(e.dataTransfer.files[0]);
-		  	return false;
-			};
-
-		}
 
 		function gotStream(stream) {
 	    	// Create an AudioNode from the stream.
@@ -53,6 +38,8 @@ var audioContext = new AudioContext();
 			navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia;
 			navigator.getUserMedia( {audio:true}, gotStream );
 		}
+
+		// console.log("shit gets here");
 
 		function toggleLiveInput() {
     		getUserMedia({audio:true}, gotStream);
@@ -96,5 +83,9 @@ var audioContext = new AudioContext();
 			}
 
 			peaks = peaks.concat(tmpArr);
+			arrOut = peaks.toString();
+			console.log(arrOut);
 
 		}
+
+});
