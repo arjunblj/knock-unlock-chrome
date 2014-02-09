@@ -1,3 +1,5 @@
+$(document).ready(function() {
+
 var audioContext = new AudioContext();
 var analyser = null;
 var tapElem;
@@ -8,7 +10,8 @@ window.onload = function() {
 }
 
 function error() {
-    alert("Shit's broken homie.");
+	console.log(arguments);
+	throw arguments;
 }
 
 function getUserMedia(dictionary, callback) {
@@ -17,8 +20,10 @@ function getUserMedia(dictionary, callback) {
         	navigator.getUserMedia ||
         	navigator.webkitGetUserMedia ||
         	navigator.mozGetUserMedia;
+       	console.log("got here 1");
         navigator.getUserMedia(dictionary, callback, error);
     } catch (e) {
+			console.log("got here 2");
         alert('getUserMedia threw exception :' + e);
     }
 }
@@ -34,9 +39,9 @@ function gotStream(stream) {
     updatePitch();
 }
 
-function toggleLiveInput() {
-    getUserMedia({audio:true}, gotStream);
-}
+
+document.getElementById('toggleLiveInput').addEventListener('click', function() {
+    getUserMedia({audio:true}, gotStream);});
 
 var rafID = null;
 var tracks = null;
@@ -99,3 +104,5 @@ function updatePitch( time ) {
 		window.requestAnimationFrame = window.webkitRequestAnimationFrame;
 	rafID = window.requestAnimationFrame( updatePitch );
 }
+
+});

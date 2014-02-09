@@ -1,8 +1,18 @@
+<!doctype html>
 <html>
 <head>
-	<title></title>
+<title>Tapper</title>
+<style>
+#tap { font-size: 164px; }
+#tap { display: inline-block; height:180px; text-align: left;}
+</style>
+	<script src="/js/jquery-2.1.0.min.js"></script>
+	<script src="/js/AudioContextMonkeyPatch.js"></script>
+	<script src="/js/tapdetect.js"></script>
 </head>
 <body>
-
+	<button id="toggleLiveInput">use live input</button>
+	<div class="tap"><span id="tap">--</span></div>   
+	<canvas id="output" width=300 height=42></canvas>
 </body>
 </html>
